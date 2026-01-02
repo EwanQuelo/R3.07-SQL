@@ -28,4 +28,5 @@ public class Client {
     public int getAgeClient() { return ageClient; }
     public int getNumAgent() { return numAgent; }
     public void setNumAgent(int numAgent) { this.numAgent = numAgent; }
+    public void setAgeClient(int ageClient) { this.ageClient = ageClient; }
 }
