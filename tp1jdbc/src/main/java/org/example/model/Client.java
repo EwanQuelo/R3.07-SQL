@@ -1,32 +1,43 @@
-package org.example.model;
+package com.votreprojet.model;
 
+import jakarta.persistence.*;
+import java.util.Date;
+import java.util.List;
+@Entity
+@Table(name = "Client")
 public class Client {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "numClient")
     private int numClient;
+
+    @Column(name = "nomClient", nullable = false)
     private String nomClient;
+
+    @Column(name = "prenomClient", nullable = false)
     private String prenomClient;
+
+    @Column(name = "adClient")
     private String adClient;
-    private java.sql.Date dateNaissClient;
+
+    @Column(name = "dateNaissClient")
+    @Temporal(TemporalType.DATE)
+    private Date dateNaissClient;
+
+    @Column(name = "ageClient")
     private int ageClient;
-    private int numAgent;
 
-    public Client(int numClient, String nomClient, String prenomClient, String adClient, java.sql.Date dateNaissClient, int numAgent) {
-        this.numClient = numClient;
-        this.nomClient = nomClient;
-        this.prenomClient = prenomClient;
-        this.adClient = adClient;
-        this.dateNaissClient = dateNaissClient;
-        // this.agentClient = ...
-        this.numAgent = numAgent;
-    }
+    @ManyToOne
+    @JoinColumn(name = "numAgent", referencedColumnName = "numAgent")
+    private Agent agent;
 
-    // Getters et setters
-    public int getNumClient() { return numClient; }
-    public String getNomClient() { return nomClient; }
-    public String getPrenomClient() { return prenomClient; }
-    public String getAdClient() { return adClient; }
-    public java.sql.Date getDateNaissClient() { return dateNaissClient; }
-    public int getAgeClient() { return ageClient; }
-    public int getNumAgent() { return numAgent; }
-    public void setNumAgent(int numAgent) { this.numAgent = numAgent; }
-    public void setAgeClient(int ageClient) { this.ageClient = ageClient; }
+    @ManyToMany
+    @JoinTable(
+        name = "Compte_Client",
+        joinColumns = @JoinColumn(name = "numClient"),
+        inverseJoinColumns = @JoinColumn(name = "numCompte")
+    )
+    private List<Compte> comptes;
+
+    // Constructeurs, getters et setters
 }

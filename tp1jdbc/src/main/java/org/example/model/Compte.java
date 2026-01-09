@@ -1,18 +1,26 @@
-package org.example.model;
+package com.votreprojet.model;
+import jakarta.persistence.*;
+import java.util.List;
 
+@Entity
+@Table(name = "Compte")
 public class Compte {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "numCompte")
     private int numCompte;
+
+    @Column(name = "solde")
     private double solde;
+
+    @Column(name = "typeCompte", nullable = false)
     private String typeCompte;
 
-    public Compte(int numCompte, double solde, String typeCompte) {
-        this.numCompte = numCompte;
-        this.solde = solde;
-        this.typeCompte = typeCompte;
-    }
+    @OneToMany(mappedBy = "compte", cascade = CascadeType.ALL)
+    private List<Operation> operations;
 
-    // Getters et setters
-    public int getNumCompte() { return numCompte; }
-    public double getSolde() { return solde; }
-    public String getTypeCompte() { return typeCompte; }
+    @ManyToMany(mappedBy = "comptes")
+    private List<Client> clients;
+
+    // Constructeurs, getters et setters
 }
